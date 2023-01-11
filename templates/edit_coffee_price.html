@@ -1,0 +1,21 @@
+{% extends 'bootstrap/base.html' %}
+{% include "header.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+<h5>Name: <span style="font-weight: bold;">{{ cafe.name }}</span></h5>
+<h5>Location: <span style="font-weight: bold;">{{ cafe.location }}</span></h5>
+<h5>Current Coffee price: <span style="color: red; font-weight: bold;">{{ cafe.coffee_price }}</span></h5>
+
+{{ wtf.quick_form(form) }}
+
+                    </div>
+    </div>
+</div>
+{% endblock %}
+{% include "footer.html" %}
+

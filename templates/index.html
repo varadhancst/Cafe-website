@@ -1,0 +1,90 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{% include "header.html" %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+                    {% if results %}
+                    <p class="results-heading">Searching for cafes with '{{ query }}'</p>
+                    <h2 class="sub-title"> {{ results | length }} Results: </h2>
+            <div class="row">
+                    {% for result in results: %}
+
+                        <div class="col-md-2">
+                            <img height="150px" src="{{ result.img_url }}" width="150px">
+                    <a href="{{ url_for('show_cafe', cafe_id=result.id)}}">
+                            <h4>{{ result.name }}</h4>
+                            <p>{{ result.location }}</p>
+                    </a>
+                            </div>
+
+                    {% endfor %}
+                </div>
+                    {% else %}
+                    <h6>The best work and study-friendly cafes, restaurants, and hotel lobbies in London.
+                        Find venues with free and reliable Wi-Fi hotspots, ample power sockets, and comfy seating
+                        areas.</h6>
+                    <h2 class="sub-title"> Work-Friendly Places </h2>
+             <div class="row">
+                    {% for cafe in cafes.items: %}
+                        <div class="col-md-4">
+                            <div class="float-left">
+                            <img src="{{cafe.img_url}}" height="250px" width="250px"/>
+                                </div>
+                            <a href="{{ url_for('show_cafe', cafe_id=cafe.id)}}">
+                                <div class="float-right">
+                                <h5>{{cafe.name}}</h5>
+                                    <p>{{cafe.location}}</p>
+                                    </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                 </div>
+                        <div class="text-right">
+                        <a class="btn btn-outline-dark {% if cafes.page == 1 %}disabled{% endif %}"
+                           href="{{ url_for('home', page=cafes.prev_num) }}">&laquo;</a>
+                        <!-- Loop through the number of pages to display a link for each-->
+                        {% for page_num in cafes.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)%}
+                        {% if page_num %}
+                        <!-- Check for the active page and set the link to "Active"-->
+                        {% if cafes.page == page_num %}
+                        <a class="btn btn-dark"
+                           href="{{ url_for('home', page=page_num) }}">
+                            {{ page_num }}
+                        </a>
+                        {% else %}
+                        <a class="btn btn-outline-dark"
+                           href="{{ url_for('home', page=page_num) }}">
+                            {{ page_num }}
+                        </a>
+                        {% endif %}
+                        {% else %}
+                        ...
+                        {% endif %}
+                        {% endfor %}
+                        <a class="btn btn-outline-dark {% if cafes.page == cafes.pages %}disabled{% endif %}"
+                           href="{{ url_for('home', page=cafes.next_num) }}">&raquo;</a>
+                    </div>
+                    <p class="text-right mt-3">
+                        Showing page {{ cafes.page }} of {{ cafes.pages }}
+                    </p>
+                        {% endif %}
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination Links-->
+
+
+{% endblock %}
+{% include "footer.html" %}
+
+
+
+
+
+
